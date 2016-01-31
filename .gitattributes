@@ -1,0 +1,16 @@
+# auto detect text files
+* text=auto
+
+# no trailing space, no tabs, unix line endings
+*.php  whitespace=trailing-space,space-before-tab,tab-in-indent,cr-at-eol eol=lf
+*.css  whitespace=trailing-space,space-before-tab,tab-in-indent,cr-at-eol eol=lf
+*.js   whitespace=trailing-space,space-before-tab,tab-in-indent,cr-at-eol eol=lf
+*.html whitespace=trailing-space,space-before-tab,tab-in-indent,cr-at-eol eol=lf
+*.tpl  whitespace=trailing-space,space-before-tab,tab-in-indent,cr-at-eol eol=lf
+
+# no trailing space, unix lne endings
+*.sql  whitespace=trailing-space eol=lf
+*.txt  whitespace=trailing-space eol=lf
+*.md   whitespace=trailing-space eol=lf
+*.dox  whitespace=trailing-space eol=lf
+*.conf whitespace=trailing-space eol=lf
