@@ -16,14 +16,16 @@ switch($_REQUEST["comment"]):
 		// $_POST['commentbody'] - текст комментария
 		// $_POST['replyto'] - номер поста, на который отвечает
 		// $_SESSION['userid'] - номер пользователя
-		$newid = $DB->query('INSERT
-			INTO ?_comments(`type`, `typeid`, `userid`, `commentbody`, `post_date`{, ?#})
-			VALUES (?d, ?d, ?d, ?, NOW(){, ?d})',
+		$commentTime = mktime();
+		$newid = $DB->query('
+					INSERT INTO ?_comments (`type`, `typeid`, `userid`, `commentbody`, `post_date`{, ?#})
+					VALUES (?d, ?d, ?d, ?,  ?d{, ?d})',
 			(empty($_POST['replyto'])? DBSIMPLE_SKIP : 'replyto'),
 			$_GET["type"],
 			$_GET["typeid"],
 			(empty($_SESSION['userid'])? 0 : $_SESSION['userid']) ,
 			stripslashes($_POST['commentbody']),
+			$commentTime,
 			(empty($_POST['replyto'])? DBSIMPLE_SKIP : $_POST['replyto'])
 		);
 		if (empty($_POST['replyto']))
@@ -48,8 +50,12 @@ switch($_REQUEST["comment"]):
 		// Новое содержание комментария: $_POST['body']
 		// Номер пользователя: $_SESSION['userid']
 		if (IsSet($_POST['body']))
-			$DB->query('UPDATE ?_comments SET `commentbody`=?, `edit_userid`=?, `edit_date`=NOW() WHERE `id`=?d {AND `userid`=?d} LIMIT 1',
-			stripslashes($_POST['body']), $_SESSION['userid'], $_GET['id'],
+			$DB->query('UPDATE ?_comments 
+				SET `commentbody`=?, `edit_userid`=?, `edit_date`=?d 
+				WHERE `id` = ?d 
+						{AND `userid` = ?d} 
+				LIMIT 1',
+			stripslashes($_POST['body']), $_SESSION['userid'], $commentEdit, $_GET['id'],
 			($_SESSION['roles']>1)? DBSIMPLE_SKIP : $_SESSION['userid']
 			);
 		echo $_POST['body'];
@@ -63,7 +69,7 @@ switch($_REQUEST["comment"]):
 		*/
 		// Проверка на хоть какое то значение рейтинга, и на то, что пользователь за этот коммент не голосовал
 		if (IsSet($_GET['rating']) and !($DB->selectCell('SELECT `commentid` FROM ?_comments_rates WHERE `userid`=?d AND `commentid`=?d LIMIT 1', $_SESSION['userid'], $_GET['id'])))
-			$DB->query('INSERT INTO ?_comments_rates(`commentid`, `userid`, `rate`) VALUES (?d, ?d, ?d)',
+			$DB->query('INSERT INTO ?_comments_rates (`commentid`, `userid`, `rate`) VALUES (?d, ?d, ?d)',
 				$_GET['id'], $_SESSION['userid'], $_GET['rating']);
 		break;
 	case 'undelete':
