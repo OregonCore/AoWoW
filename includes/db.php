@@ -90,7 +90,7 @@ function save_cache($type, $type_id, $data, $prefix = '')
 		return false;
 
 	// {$type_str}_{$type_id}.aww
-	$file = fopen($prefix.'cache/mangos/'.$type_str.'_'.$type_id.'_'.$_SESSION['locale'].'.aww', 'w+');
+	$file = fopen($prefix.'cache/oregon/'.$type_str.'_'.$type_id.'_'.$_SESSION['locale'].'.aww', 'w+');
 
 	$time = time()+$AoWoWconf['aowow']['cache_time'];
 
@@ -125,7 +125,7 @@ function load_cache($type, $type_id)
 	if(empty($type_str))
 		return false;
 
-	$data = @file_get_contents($prefix.'cache/mangos/'.$type_str.'_'.$type_id.'_'.$_SESSION['locale'].'.aww');
+	$data = @file_get_contents($prefix.'cache/oregon/'.$type_str.'_'.$type_id.'_'.$_SESSION['locale'].'.aww');
 	if(!$data)
 		return false;
 

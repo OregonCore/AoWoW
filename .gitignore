@@ -1,5 +1,5 @@
 # ignore cache
-cache/*
+#cache/*
 
 # backups
 *.orig
