@@ -9,9 +9,9 @@ require_once 'includes/DbSimple/Generic.php';
 global $AoWoWconf;
 
 // Подключение к БД мангос (версия 3 :) )
-$DB = DbSimple_Generic::connect("mysql://".$AoWoWconf['mangos']['user'].":".$AoWoWconf['mangos']['pass']."@".$AoWoWconf['mangos']['host']."/".$AoWoWconf['mangos']['db']);
+$DB = DbSimple_Generic::connect("mysql://".$AoWoWconf['oregon']['user'].":".$AoWoWconf['oregon']['pass']."@".$AoWoWconf['oregon']['host']."/".$AoWoWconf['oregon']['db']);
 $DB->setErrorHandler('databaseErrorHandler');
-$DB->setIdentPrefix($AoWoWconf['mangos']['aowow']);
+$DB->setIdentPrefix($AoWoWconf['oregon']['aowow']);
 $DB->query('SET NAMES ?', 'utf8');
 // Подключение к БД realmd
 if($AoWoWconf['realmd'])
