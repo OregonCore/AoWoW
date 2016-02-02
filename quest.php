@@ -365,7 +365,7 @@ if(!$quest = load_cache(10, intval($id)))
 		WHERE
 			q.quest=?d
 			AND c.entry=q.id
-			AND factiontemplateID=c.faction_A
+			AND factiontemplateID=c.faction
 		',
 		($_SESSION['locale']>0)? $_SESSION['locale']: DBSIMPLE_SKIP,
 		($_SESSION['locale']>0)? 1: DBSIMPLE_SKIP,
@@ -446,7 +446,7 @@ if(!$quest = load_cache(10, intval($id)))
 		WHERE
 			q.quest=?d
 			AND c.entry=q.id
-			AND factiontemplateID=c.faction_A
+			AND factiontemplateID=c.faction
 		',
 		($_SESSION['locale']>0)? $_SESSION['locale']: DBSIMPLE_SKIP,
 		($_SESSION['locale']>0)? 1: DBSIMPLE_SKIP,

@@ -35,7 +35,7 @@ if(!$npc = load_cache(1, intval($id)))
 		}
 		WHERE
 			c.entry=?
-			AND ft.factiontemplateID=c.faction_A
+			AND ft.factiontemplateID=c.faction
 			AND f.factionID=ft.factionID
 		LIMIT 1
 			',
