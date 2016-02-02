@@ -13,7 +13,7 @@ global $languages;
 $languages = array(
 	0 => 'enus',
 	3 => 'dede',
-	//8 => 'ruru',
+	8 => 'ruru',
 );
 function str_normalize($str)
 {

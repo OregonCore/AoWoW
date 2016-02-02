@@ -40,4 +40,6 @@ class Smarty_AoWoW extends Smarty
 		}
 }
 
+// Объект шаблонизатора
+$smarty = new Smarty_AoWoW('wowhead');
 ?>

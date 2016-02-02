@@ -2,9 +2,6 @@
 // Настройка шаблонизатора и ДБ
 include('includes/kernel.php');
 
-// Объект шаблонизатора
-$smarty = new Smarty_AoWoW('wowhead');
-
 // Имя пользователя и пасс
 session_start();
 
