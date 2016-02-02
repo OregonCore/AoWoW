@@ -1,7 +1,7 @@
 <?php
 
-require_once ('includes/allitems.php');
-require_once ('includes/alllocales.php');
+require_once('includes/allitems.php');
+require_once('includes/alllocales.php');
 
 // Классы персонажей (битовые маски)
 define ("CLASS_WARRIOR", 1);
@@ -315,7 +315,7 @@ function loot_table($table, $lootid, $max_percent=100)
 	$groups = array();
 	// Мего запрос :)
 	$rows = $DB->select('
-		SELECT l.ChanceOrQuestChance, l.mincountOrRef, l.maxcount as `d-max`, l.groupid, ?#, i.entry, i.maxcount
+		SELECT l.Chance, l.mincount, l.maxcount as `d-max`, l.groupid, ?#, i.entry, i.maxcount
 			{, loc.name_loc?d AS `name_loc`}
 		FROM ?# l
 			LEFT JOIN (?_icons a, item_template i) ON l.item=i.entry AND a.id=i.displayid
@@ -335,16 +335,16 @@ function loot_table($table, $lootid, $max_percent=100)
 	// Перебираем
 	foreach ($rows as $i => $row)
 	{
-		if ($row['mincountOrRef']>0)
+		if ($row['mincount']>0)
 		{
 			// Не ссылка!
 			if ($row['groupid']>0)
 			{
 				// Групповой лут!
 				$groups[$row['groupid']][] = array(
-					'mincount' => $row['mincountOrRef'],
+					'mincount' => $row['mincount'],
 					'maxcount' => $row['d-max'],
-					'percent'  => $row['ChanceOrQuestChance']*$max_percent/100,
+					'percent'  => $row['Chance']*$max_percent/100,
 					'item'     => iteminfo2($row,0)
 				);
 				// Общее число элементов группы с равнозначным шансом
@@ -355,15 +355,15 @@ function loot_table($table, $lootid, $max_percent=100)
 					$group_idx[$row['groupid']]['percent'] = 0;
 				// Если шанс дропа=0, значит это равнозначный лут в группе
 				// Иначе, увеличиваем зарезервированный шанс для элементов лута с четко определенным шансом дропа
-				if ($row['ChanceOrQuestChance']==0)
+				if ($row['Chance']==0)
 					$group_idx[$row['groupid']]['num-equal'] ++;
 				else
-					$group_idx[$row['groupid']]['percent'] += abs($row['ChanceOrQuestChance']);
+					$group_idx[$row['groupid']]['percent'] += abs($row['Chance']);
 			} else {
 				// Старый добрый обычный лут :)
 				$loot[] = array_merge(array(
-					'percent'  => ($max_percent!=100)? $max_percent : $row['ChanceOrQuestChance'],
-					'mincount' => $row['mincountOrRef'],
+					'percent'  => ($max_percent!=100)? $max_percent : $row['Chance'],
+					'mincount' => $row['mincount'],
 					'maxcount' => $row['d-max'],
 					'group'    => 0
 				), iteminfo2($row, 0));
@@ -373,7 +373,7 @@ function loot_table($table, $lootid, $max_percent=100)
 			// Вот если это ссылка, то ######
 			// Наша задача - вызвать эту же функцию, но с предопределенным значением percent и maxcount
 			for ($j=1;$j<=$row['d-max'];$j++)
-				$loot = array_merge($loot, loot_table($table, -$row['mincountOrRef'], $row['ChanceOrQuestChance']));
+				$loot = array_merge($loot, loot_table($table, -$row['mincount'], $row['Chance']));
 		}
 	}
 	// Перебираем группы лута
@@ -408,7 +408,7 @@ function drop($table, $item)
 {
 	global $DB;
 	$rows = $DB->select('
-		SELECT l.ChanceOrQuestChance, l.mincountOrRef, l.maxcount, l.entry
+		SELECT l.Chance, l.mincount, l.maxcount, l.entry
 		FROM ?# l
 		WHERE
 			l.item=?
@@ -421,22 +421,22 @@ function drop($table, $item)
 	$drop = array();
 	foreach ($rows as $i => $row)
 	{
-		if ($row['mincountOrRef'] > 0)
+		if ($row['mincount'] > 0)
 		{
 			$num = $row['entry'];
 			$drop[$num] = array();
-			$drop[$num]['percent'] = abs($row['ChanceOrQuestChance']);
-			$drop[$num]['mincount'] = $row['mincountOrRef'];
+			$drop[$num]['percent'] = abs($row['Chance']);
+			$drop[$num]['mincount'] = $row['mincount'];
 			$drop[$num]['maxcount'] = $row['maxcount'];
 			
 			// Ищем лут, который ссылается на этот лут
-			$refrows = $DB->select('SELECT entry FROM ?# WHERE mincountOrRef=? LIMIT 200',$table, -$num);
+			$refrows = $DB->select('SELECT entry FROM ?# WHERE mincount=? LIMIT 200',$table, -$num);
 			foreach ($refrows as $i => $refrow)
 			{
 				$num = $refrow['entry'];
 				$drop[$num] = array();
-				$drop[$num]['percent'] = abs($row['ChanceOrQuestChance']);
-				$drop[$num]['mincount'] = $row['mincountOrRef'];
+				$drop[$num]['percent'] = abs($row['Chance']);
+				$drop[$num]['mincount'] = $row['mincount'];
 				$drop[$num]['maxcount'] = $row['maxcount'];
 			}
 		}
