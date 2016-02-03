@@ -106,7 +106,7 @@ if(!$npc = load_cache(1, intval($id)))
 		
         for($j=1;$j<4;$j++)
         {
-            $tmp2 = $DB->select('SELECT action?d_param1 FROM creature_ai_scripts WHERE entryorguid=?d AND action?d_type=11', $j, $npc['entry'], $j);
+            $tmp2 = $DB->select('SELECT action?d_param1 FROM creature_ai_scripts WHERE creature_id=?d AND action?d_type=11', $j, $npc['entry'], $j);
             if($tmp2)
             {
                 foreach($tmp2 as $i=>$tmp3)
