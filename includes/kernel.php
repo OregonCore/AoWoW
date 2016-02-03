@@ -68,4 +68,15 @@ function del_user_cookie()
 {
 	setcookie ('remember_me', '', time() - 3600);
 }
+
+function d($d,$v)
+{
+	define($d,$v);
+}
+
+function mass_define($arr)
+{
+	foreach($arr as $name => $value)
+		define($name, $value);
+}
 ?>
