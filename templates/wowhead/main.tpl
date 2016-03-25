@@ -1,4 +1,5 @@
 {config_load file="$conf_file"}
+<!doctype html>
 <html>
 <head>
 	{include file='head.tpl'}
@@ -16,7 +17,7 @@
 </head>
 <body>
 	<div id="layers"></div>
-	<noscript><div id="noscript-bg"></div><div id="noscript-text"><b>{#js_err#}</div></noscript>
+	<noscript><div id="noscript-bg"></div><div id="noscript-text"><strong>{#js_err#}</strong></div></noscript>
 	<div id="home">
 		<h1>{$title}</h1>
 		<span id="menu-buttons-generic" class="menu-buttons"></span>
@@ -54,5 +55,6 @@
 			LiveSearch.attach(_);
 			_.focus()
 		</script>
+    </div> <!-- home -->
 </body>
 </html>

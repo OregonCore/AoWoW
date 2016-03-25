@@ -1,4 +1,4 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3c.org/TR/1999/REC-html401-19991224/loose.dtd">
+<!doctype html>
 <html>
 <head>
 {include file='head.tpl'}
@@ -14,14 +14,14 @@
 			<h1>{$page.Title|escape:"html"}</h1>
 		</div>
 		<div id="header-ad">
-			<iframe width="728" height="90" frameborder="0" style="display: none;"/></iframe>
+			<iframe width="728" height="90" style="display: none;"></iframe>
 		</div>
 	</div>
 
 	<div id="sidebar">
 		<div id="sidebar-contents">
 			<a href="javascript:;" class="expand-site" title="Purge ads and expand layout" onclick="g_expandSite()"></a>
-			<div id="sidebar-ad"><iframe width="160" height="600" frameborder="0" style="display: none;"/></iframe></div>
+			<div id="sidebar-ad"><iframe width="160" height="600" style="display: none;"></iframe></div>
 		</div>
 	</div>
 
