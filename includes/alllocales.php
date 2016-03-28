@@ -1,5 +1,11 @@
 <?php
 
+function mass_define($arr)
+{
+    foreach($arr as $name => $value)
+        define($name, $value);
+}
+
 switch($_SESSION['locale'])
 {
 	// --- RUSSIAN LOCALE ---

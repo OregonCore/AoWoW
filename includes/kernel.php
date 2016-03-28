@@ -74,9 +74,4 @@ function d($d,$v)
 	define($d,$v);
 }
 
-function mass_define($arr)
-{
-	foreach($arr as $name => $value)
-		define($name, $value);
-}
 ?>
